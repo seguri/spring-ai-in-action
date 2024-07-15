@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>name.seguri.java</groupId>
+    <artifactId>springpom</artifactId>
+    <version>3.3.1-1</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>name.seguri.java.manning</groupId>
+  <artifactId>spring-ai-in-action</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <properties>
+    <dep.spring-ai.version>1.0.0.M1</dep.spring-ai.version>
+    <dep.jedis.version>5.0.2</dep.jedis.version>
+    <dep.protobuf.version>3.25.2</dep.protobuf.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <dependency>
+        <groupId>org.springframework.ai</groupId>
+        <artifactId>spring-ai-bom</artifactId>
+        <version>${dep.spring-ai.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!-- Conflict between spring-boot-starter-test>com.vaadin.external.google:android-json and spring-ai-ollama-spring-boot-starter>redis.clients:jedis -->
+      <dependency>
+        <groupId>redis.clients</groupId>
+        <artifactId>jedis</artifactId>
+        <version>${dep.jedis.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <!-- From spring-ai-spring-boot-autoconfigure -->
+      <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+        <version>${dep.protobuf.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.ai</groupId>
+      <artifactId>spring-ai-ollama-spring-boot-starter</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <!-- Additional Spring AI dependencies -->
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>spring-milestones</id>
+      <name>Spring Milestones</name>
+      <url>https://repo.spring.io/milestone</url>
+    </repository>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <id>spring-snapshots</id>
+      <name>Spring Snapshots</name>
+      <url>https://repo.spring.io/snapshot</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${dep.spring-boot.version}</version>
+      </plugin>
+    </plugins>
+  </build>
+</project>
